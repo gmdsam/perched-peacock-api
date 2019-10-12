@@ -20,7 +20,6 @@ def load_config_from_json(flask_app=None):
     env = os.envrion['PP_ENV'] if 'PP_ENV' in os.environ else 'DEV'
     here = os.path.abspath(os.path.dirname(__file__))
     json_config_file = os.path.join(here, '{}.json'.format(env))
-    print(json_config_file)
     if os.path.exists(json_config_file):
         if flask_app is not None:
             flask_app.config.from_json(json_config_file)
