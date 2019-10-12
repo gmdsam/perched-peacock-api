@@ -1,7 +1,8 @@
 {
   "DEBUG": false,
   "HOST": "0.0.0.0",
-  "PORT": 8058,
+  "PORT": "@PORT@",
   "LOG_PATH": "@PP_LOG_PATH@",
-  "DB_SERVER": "DB_SERVER"
+  "DB_URL": "@DB_URL@",
+  "DB_NAME": "@DB_NAME@"
 }
