@@ -1,0 +1,8 @@
+flask
+flask_restful
+pymongo
+flask-swagger-ui
+injector
+flask_cors
+flask_injector
+flask_restplus
