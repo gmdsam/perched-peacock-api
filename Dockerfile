@@ -5,8 +5,8 @@ WORKDIR /app
 
 COPY . /app
 
-ENV PYTHONPATH /app/pp-parking
+ENV PYTHONPATH /app
 
 RUN pip install -r requirements.txt
 
-CMD python /app/pp-parking/parking/api/main.py
+CMD python /app/parking/api/main.py
