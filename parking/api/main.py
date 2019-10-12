@@ -20,7 +20,7 @@ def configure_injector(config, binder):
 
     class _ParkingServiceProvider(Provider):
         def get(self, injector):
-            return ParkingService(injector.get(Database).handshake(config['DB_URL']))
+            return ParkingService(injector.get(Database).handshake(config['DB_URL'], config['DB_NAME']))
 
     binder.bind(
         Database,
