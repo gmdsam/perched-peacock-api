@@ -2,6 +2,7 @@ from flask import Response
 from flask_restplus import Resource, Namespace
 import uuid
 from injector import inject
+import json
 
 from parking.core.services.parking_service import ParkingService
 
@@ -17,6 +18,11 @@ class GenerateParkingLotApi(Resource):
         self.__parking_service = parking_service
 
     def get(self):
+        parking_lot = self.__parking_service.get_parking_db()
+        r = Response(response=json.dumps(parking_lot), status=200)
+        return r
+
+    def post(self):
         parking_lot = [
             {'ID': uuid.uuid4(), 'Country': 'India', 'City': 'Bangalore', 'Locality': 'Whitefield',
              'Capacity': {'Bike': 10, 'Car': 5}},
