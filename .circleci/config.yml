@@ -16,11 +16,11 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: python:latest
+      - image: python:3.6.9
 
       # Environment variables
         environment:
-          PYTHONPATH: ~/repo
+          PYTHONPATH: ~/repo:~/repo/parking/api/
           PP_LOG_PATH: ~/repo
           DB_NAME: PerchedPeacock
           DB_URL: localhost:27017
@@ -49,6 +49,8 @@ jobs:
           name: install dependencies and run
           command: |
             pip install -r requirements.txt
+            echo "$PYTHONPATH"
+            python --version
             python parking/api/main.py
 
       # - save_cache:
