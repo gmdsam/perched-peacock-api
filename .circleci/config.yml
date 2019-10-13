@@ -35,7 +35,9 @@ jobs:
     steps:
       - checkout
 
-      - run: echo "$PYTHONPATH"
+      - run: |
+          echo "$PWD"
+          ls
       # Download and cache dependencies
       # - restore_cache:
       #     keys:
@@ -47,7 +49,7 @@ jobs:
           name: install dependencies and run
           command: |
             pip install -r requirements.txt
-            python ~/repo/parking/api/main.py
+            python parking/api/main.py
 
       # - save_cache:
       #     paths:
