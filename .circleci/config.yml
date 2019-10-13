@@ -35,6 +35,7 @@ jobs:
     steps:
       - checkout
 
+      - run: echo "$PYTHONPATH"
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -48,7 +49,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            python ~/parking/api/main.py
+            python ~/repo/parking/api/main.py
 
       - save_cache:
           paths:
