@@ -6,8 +6,8 @@ version: 2
 jobs:
   build:
     machine: true
-      steps:
-        - run: docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
+    steps:
+      - run: docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
   test:  
     docker:
       # specify the version you desire here
