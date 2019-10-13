@@ -10,7 +10,6 @@ jobs:
 
     steps:
       - checkout
-
       - run: docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
 workflows:
   version: 2
