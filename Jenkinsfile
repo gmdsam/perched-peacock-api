@@ -5,7 +5,7 @@ pipeline {
 			checkout scm
 
 			now = new Date().format('yyyyMMdd-HHmmss')
-			imageTag = "$(now)"
+			imageTag = "${now}"
 			echo $imageTag
     	}
         stage('build') {
