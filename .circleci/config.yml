@@ -27,11 +27,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: "Run application"
-          command: |
-            echo 'python ~/repo/parking/api/main.py'
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -40,11 +35,21 @@ jobs:
             - v1-dependencies-
 
       - run:
+          name: build docker image
+          command: |
+            docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
+
+      - run:
           name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+
+      - run:
+          name: "Run application"
+          command: |
+            python ~/repo/parking/api/main.py
 
       - save_cache:
           paths:
