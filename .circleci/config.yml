@@ -5,6 +5,7 @@
 version: 2
 jobs:
   build:
+    machine: true
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -34,10 +35,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run:
-          name: build docker image
-          command: |
-            docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
+      - run: docker build -t perched-peacock-api:CIRCLE_BUILD_NUM .
 
       - run:
           name: install dependencies
