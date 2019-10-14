@@ -21,15 +21,18 @@ class ParkingSpace(Resource):
     @error_handler
     def get(self):
         data = request.form.to_dict()
-        arrival = data['arrival']
-        departure = data['departure']
+        # print(data)
+        # return Response(status=200)
+        arrival_date = data['arrivalDate']
+        arrival_time = data['arrivalTime']
+        departure_date = data['departureDate']
+        departure_time = data['departureTime']
         vehicle_type = data['vehicleType']
         locality = data['locality']
         city = data['city']
         country = data['country']
-
         parking_lot = self.__parking_service.get_parking_lot(locality, city, country)
-        parking_entry = ParkingEntryModel(arrival, departure, vehicle_type)
+        parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type)
         if self.__parking_service.availability(parking_entry, parking_lot):
             r = Response(response=True)
         else:
@@ -39,8 +42,10 @@ class ParkingSpace(Resource):
     @error_handler
     def post(self):
         data = request.form.to_dict()
-        arrival = data['arrival']
-        departure = data['departure']
+        arrival_date = data['arrivalDate']
+        arrival_time = data['arrivalTime']
+        departure_date = data['departureDate']
+        departure_time = data['departureTime']
         vehicle_type = data['vehicleType']
         vehicle_number = data['vehicleNumber']
         locality = data['locality']
@@ -48,7 +53,7 @@ class ParkingSpace(Resource):
         country = data['country']
 
         parking_lot = self.__parking_service.get_parking_lot(locality, city, country)
-        parking_entry = ParkingEntryModel(arrival, departure, vehicle_type, vehicle_number)
+        parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type, vehicle_number)
         if self.__parking_service.availability(parking_entry, parking_lot):
             r = Response(response=True)
         else:
