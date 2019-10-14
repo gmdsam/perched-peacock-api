@@ -1,7 +1,5 @@
 # perched-peacock-api
 
-# survey-panda-api
-
 A RESTful service to serve as a backend to https://perched-peacock-ui.herokuapp.com/ (https://github.com/gmdsam/perched-peacock-ui)
 
 ### Swagger URL
