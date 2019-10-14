@@ -54,7 +54,7 @@ class ParkingSpace(Resource):
         city = data['city']
         country = data['country']
 
-        parking_lot = self.__parking_service.get_parking_lot(locality, city, country)
+        parking_lot = self.__parking_service.get_parking_lot(locality, city)
         parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type, vehicle_number)
         if self.__parking_service.availability(parking_entry, parking_lot):
             r = Response(response=json_tricks.dumps(True), status=200)
