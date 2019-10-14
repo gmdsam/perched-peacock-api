@@ -6,7 +6,6 @@ WORKDIR /app
 COPY . /app
 
 ENV PYTHONPATH /app
-ENV PP_ENV PRD
 
 RUN pip install -r requirements.txt
 
