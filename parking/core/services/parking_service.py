@@ -25,8 +25,8 @@ class ParkingService:
         self._db['ParkingLots'].insert({'ID': uuid.uuid4(), 'Locality': locality, 'City': city, 'Country': country,
                                         'Capacity': capacity})
 
-    def get_parking_lot(self, locality, city, country):
-        parking_lot = self._db['ParkingLots'].find_one({'Locality': locality, 'City': city, 'Country': country})
+    def get_parking_lot(self, locality, city):
+        parking_lot = self._db['ParkingLots'].find_one({'Locality': locality, 'City': city})
         return ParkingLotModel(parking_lot['ID'], parking_lot['Locality'], parking_lot['City'], parking_lot['Country'],
                                parking_lot['Capacity'])
 

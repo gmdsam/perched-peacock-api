@@ -2,6 +2,7 @@ from flask import request, Response
 from flask_restplus import Resource, Namespace
 import logging
 from injector import inject
+import json_tricks
 
 from parking.api.error_handler import error_handler
 from parking.core.models.parking_entry import ParkingEntryModel
@@ -20,7 +21,7 @@ class ParkingSpace(Resource):
 
     @error_handler
     def get(self):
-        data = request.form.to_dict()
+        data = request.args.to_dict()
         # print(data)
         # return Response(status=200)
         arrival_date = data['arrivalDate']
@@ -30,13 +31,14 @@ class ParkingSpace(Resource):
         vehicle_type = data['vehicleType']
         locality = data['locality']
         city = data['city']
-        country = data['country']
-        parking_lot = self.__parking_service.get_parking_lot(locality, city, country)
+        parking_lot = self.__parking_service.get_parking_lot(locality, city)
         parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type)
         if self.__parking_service.availability(parking_entry, parking_lot):
-            r = Response(response=True)
+            r = Response(response=json_tricks.dumps(True), status=200)
+            r.mimetype = 'application/json'
         else:
-            r = Response(response=False)
+            r = Response(response=json_tricks.dumps(False), status=200)
+            r.mimetype = 'application/json'
         return r
 
     @error_handler
@@ -55,7 +57,9 @@ class ParkingSpace(Resource):
         parking_lot = self.__parking_service.get_parking_lot(locality, city, country)
         parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type, vehicle_number)
         if self.__parking_service.availability(parking_entry, parking_lot):
-            r = Response(response=True)
+            r = Response(response=json_tricks.dumps(True), status=200)
+            r.mimetype = 'application/json'
         else:
-            r = Response(response=False)
+            r = Response(response=json_tricks.dumps(False), status=200)
+            r.mimetype = 'application/json'
         return r
