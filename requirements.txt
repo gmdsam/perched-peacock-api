@@ -6,3 +6,4 @@ injector
 flask_cors
 flask_injector
 flask_restplus
+json_tricks
