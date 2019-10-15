@@ -22,13 +22,11 @@ class ParkingSpace(Resource):
     @error_handler
     def get(self):
         data = request.args.to_dict()
-        # print(data)
-        # return Response(status=200)
         arrival_date = data['arrivalDate']
         arrival_time = data['arrivalTime']
         departure_date = data['departureDate']
         departure_time = data['departureTime']
-        vehicle_type = data['vehicleType']
+        vehicle_type = 'Car'
         locality = data['locality']
         city = data['city']
         parking_lot = self.__parking_service.get_parking_lot(locality, city)
@@ -43,20 +41,19 @@ class ParkingSpace(Resource):
 
     @error_handler
     def post(self):
-        data = request.form.to_dict()
+        data = request.json
         arrival_date = data['arrivalDate']
         arrival_time = data['arrivalTime']
         departure_date = data['departureDate']
         departure_time = data['departureTime']
-        vehicle_type = data['vehicleType']
+        vehicle_type = 'Car'
         vehicle_number = data['vehicleNumber']
         locality = data['locality']
         city = data['city']
-        country = data['country']
 
         parking_lot = self.__parking_service.get_parking_lot(locality, city)
         parking_entry = ParkingEntryModel(arrival_date, arrival_time, departure_date, departure_time, vehicle_type, vehicle_number)
-        if self.__parking_service.availability(parking_entry, parking_lot):
+        if self.__parking_service.book(parking_entry, parking_lot):
             r = Response(response=json_tricks.dumps(True), status=200)
             r.mimetype = 'application/json'
         else:

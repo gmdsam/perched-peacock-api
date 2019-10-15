@@ -34,14 +34,35 @@ class ParkingService:
 
     def availability(self, parking_entry, parking_lot):
         parking_lot_collection = parking_lot._locality + '_' + parking_lot._city + '_' + parking_lot._country
-        arrival_date = datetime.strptime(parking_entry._arrival_date, '%a %b %d %Y')
-        departure_date = datetime.strptime(parking_entry._departure_date, '%a %b %d %Y')
+        date = datetime.strptime(parking_entry._arrival_date, '%a %b %d %Y')
+        arrival_date = str(date.year) + ' ' + str(date.month) + ' ' + str(date.day)
+        date = datetime.strptime(parking_entry._departure_date, '%a %b %d %Y')
+        departure_date = str(date.year) + ' ' + str(date.month) + ' ' + str(date.day)
         arrival_time = parking_entry._arrival_time
         departure_time = parking_entry._departure_time
-        occupied = self._db[parking_lot_collection].count_documents({'arrivalDate': {'$lt': str(departure_date.date())},
-                                                          'departureDate': {'$gt': str(arrival_date.date())},
-                                                          'arrivalTime': {'$lt': departure_time},
-                                                          'departureTime': {'$gt': arrival_time}})
+        occupied = self._db[parking_lot_collection].count_documents({'ArrivalDate': {'$lte': departure_date},
+                                                                     'DepartureDate': {'$gte': arrival_date},
+                                                                     'ArrivalTime': {'$lte': departure_time},
+                                                                     'DepartureTime': {'$gte': arrival_time}})
         if occupied >= parking_lot._capacity['Car']:
             return False
         return True
+
+    def book(self, parking_entry, parking_lot):
+        if self.availability(parking_entry, parking_lot):
+            parking_lot_collection = parking_lot._locality + '_' + parking_lot._city + '_' + parking_lot._country
+            date = datetime.strptime(parking_entry._arrival_date, '%a %b %d %Y')
+            arrival_date = str(date.year) + ' ' + str(date.month) + ' ' + str(date.day)
+            date = datetime.strptime(parking_entry._departure_date, '%a %b %d %Y')
+            departure_date = str(date.year) + ' ' + str(date.month) + ' ' + str(date.day)
+            self._db[parking_lot_collection].insert({'VehicleNumber': parking_entry._vehicle_number,
+                                                     'ArrivalDate': arrival_date,
+                                                     'ArrivalTime': parking_entry._arrival_time,
+                                                     'DepartureDate': departure_date,
+                                                     'DepartureTime': parking_entry._departure_time,
+                                                     'Locality': parking_lot._locality,
+                                                     'City': parking_lot._city,
+                                                     'Country': parking_lot._country})
+            return True
+        else:
+            return False
