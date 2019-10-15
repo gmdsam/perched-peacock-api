@@ -1,5 +1,7 @@
 from injector import inject
 import uuid
+from datetime import datetime
+import time
 
 from parking.core.models.parking_lot import ParkingLotModel
 
@@ -10,7 +12,7 @@ class ParkingService:
     def __init__(self, db):
         self._db = db
 
-    def generate_parking_lot(self, parking_lot):
+    def populate_parking_db(self, parking_lot):
         self._db['ParkingLots'].drop()
         self._db['ParkingLots'].insert_many(parking_lot)
 
@@ -31,4 +33,15 @@ class ParkingService:
                                parking_lot['Capacity'])
 
     def availability(self, parking_entry, parking_lot):
-        pass
+        parking_lot_collection = parking_lot._locality + '_' + parking_lot._city + '_' + parking_lot._country
+        arrival_date = datetime.strptime(parking_entry._arrival_date, '%a %b %d %Y')
+        departure_date = datetime.strptime(parking_entry._departure_date, '%a %b %d %Y')
+        arrival_time = parking_entry._arrival_time
+        departure_time = parking_entry._departure_time
+        occupied = self._db[parking_lot_collection].count_documents({'arrivalDate': {'$lt': str(departure_date.date())},
+                                                          'departureDate': {'$gt': str(arrival_date.date())},
+                                                          'arrivalTime': {'$lt': departure_time},
+                                                          'departureTime': {'$gt': arrival_time}})
+        if occupied >= parking_lot._capacity['Car']:
+            return False
+        return True

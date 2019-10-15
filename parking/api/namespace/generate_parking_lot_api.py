@@ -85,6 +85,6 @@ class GenerateParkingLotApi(Resource):
             {'ID': uuid.uuid4(), 'Country': 'United Kingdom', 'City': 'Birmingham', 'Locality': 'Vauxhall',
              'Capacity': {'Bike': 10, 'Car': 5}}
         ]
-        self.__parking_service.generate_parking_lot(parking_lot)
+        self.__parking_service.populate_parking_db(parking_lot)
         r = Response(response='Parking lot information added', status=200)
         return r
